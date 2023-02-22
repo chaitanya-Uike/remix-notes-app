@@ -1,0 +1,47 @@
+.searchBarContainer{
+    display: flex;
+    align-items: center;
+    width: 550px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 18px;
+    gap: 10px;
+    margin: 50px auto;
+
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+}
+
+.searchBarContainer form{
+    display: flex;
+    align-items: center;
+}
+
+.clearSearchbar{
+    display: grid;
+    place-items: center;
+    margin-right: 80px;
+    cursor: pointer;
+}
+
+.searchbar{
+    width: 375px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+.searchButton{
+    border: none;
+    font-size: 16px;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    position: absolute;
+    right: 0;
+    height: 100%;
+}

@@ -1,10 +1,9 @@
-import { json } from "@remix-run/node";
+import { Note } from "models/index.server";
+import { Form, useCatch, useLoaderData } from "@remix-run/react";
+import { redirect, json } from "@remix-run/node";
 import AddNoteForm, {
   links as AddNoteFormLinks,
 } from "~/components/AddNoteForm";
-import { Note } from "models/index.server";
-import { Form, useCatch, useLoaderData } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
 
 import styles from "../styles/editPage.css";
 

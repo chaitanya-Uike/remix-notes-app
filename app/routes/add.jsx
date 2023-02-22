@@ -1,9 +1,8 @@
+import { redirect, json } from "@remix-run/node";
+import { Note } from "models/index.server";
 import AddNoteForm, {
   links as AddNoteFormLinks,
 } from "~/components/AddNoteForm";
-import { redirect } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Note } from "models/index.server";
 
 export default function AddNotePage() {
   return (

@@ -15,3 +15,9 @@ html{
     font-size: 25px;
     margin-left: 40px;
 }
+
+.searching{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

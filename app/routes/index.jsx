@@ -1,25 +1,58 @@
+import { useState, useEffect } from "react";
+import NotesList, { links as NotesListLinks } from "~/components/NotesList";
+import { json } from "@remix-run/node";
+import {
+  useActionData,
+  useCatch,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
+import { Note, Op } from "models/index.server";
 import AddNotesBtn, {
   links as AddNotesBtnLinks,
 } from "~/components/AddNotesButton";
-import NotesList, { links as NotesListLinks } from "~/components/NotesList";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { Note } from "models/index.server";
+import SearchBar, { links as SearchBarLinks } from "~/components/SearchBar";
 
 export default function Index() {
-  const notes = useLoaderData();
+  const [notes, setNotes] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [query, setQuery] = useState("");
+  const allNotes = useLoaderData();
+  const searchResults = useActionData();
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "submitting";
+
+  useEffect(() => {
+    if (isSearching && searchResults) {
+      setNotes([...searchResults]);
+    } else {
+      setNotes([...allNotes]);
+    }
+  }, [searchResults, allNotes, isSearching]);
+
   return (
     <main>
-      <NotesList notes={notes} />
+      <SearchBar
+        setIsSearching={setIsSearching}
+        query={query}
+        setQuery={setQuery}
+      />
+      {isLoading ? (
+        <p className="searching">Searching...</p>
+      ) : (
+        <NotesList notes={notes} isSearching={isSearching} query={query} />
+      )}
       <AddNotesBtn />
     </main>
   );
 }
 
 export function CatchBoundary() {
+  const caught = useCatch();
   return (
     <div className="catchBoundary">
-      Sorry, We are unable to fetch your notes right now
+      <p>Oops! something went wrong</p>
+      <p style={{ fontSize: 16 }}>{caught.data.msg}</p>
     </div>
   );
 }
@@ -29,10 +62,29 @@ export async function loader() {
     const notes = await Note.findAll();
     return json(notes);
   } catch (error) {
-    throw json({ msg: "some error occurred while fetching your Notes" });
+    throw json({ msg: "Sorry we can't fetch your notes right now" });
+  }
+}
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const query = formData.get("query");
+
+  try {
+    const results = await Note.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.iLike]: `%${query}%` } },
+          { content: { [Op.iLike]: `%${query}%` } },
+        ],
+      },
+    });
+    return json(results);
+  } catch (error) {
+    throw json({ msg: "Something went wrong while searching" });
   }
 }
 
 export function links() {
-  return [...AddNotesBtnLinks(), ...NotesListLinks()];
+  return [...AddNotesBtnLinks(), ...NotesListLinks(), ...SearchBarLinks()];
 }
