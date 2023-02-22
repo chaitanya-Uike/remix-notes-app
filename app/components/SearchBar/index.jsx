@@ -20,6 +20,7 @@ export default function SearchBar({ setIsSearching, query, setQuery }) {
           placeholder="Find notes faster by searching"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          autoComplete="off"
         />
         {query.length > 0 && (
           <div
