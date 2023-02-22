@@ -1,0 +1,20 @@
+.addNotesBtn{
+    font-size: 40px;
+    display: grid;
+    place-items: center;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: black;
+    color: white;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    transition: all 500ms ease-in-out;
+}
+
+.addNotesBtn:hover{
+    transform: rotate(180deg);
+}

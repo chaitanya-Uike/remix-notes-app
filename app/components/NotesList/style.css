@@ -1,0 +1,11 @@
+.notesListContainer{
+    padding: 10px 40px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.noNotesPlaceholder{
+    color: gray;
+    font-size: 25px;
+}

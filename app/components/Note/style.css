@@ -1,0 +1,37 @@
+.note{
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    text-decoration: none;
+    color: black;
+}
+
+.note:hover{
+    transform: translateY(-5px);
+}
+
+.noteTitle{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.noteContent{
+    font-size: 15px;
+    display: inline-block;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    height: 110px;
+}
+
+.noteDate{
+    position: absolute;
+    font-size: 12px;
+    bottom: 20px;
+}
