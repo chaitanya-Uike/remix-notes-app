@@ -51,8 +51,6 @@ export async function action({ request }) {
   const formData = await request.formData();
   const query = formData.get("query");
 
-  console.log(query);
-
   try {
     const results = await Note.findAll({
       where: {
