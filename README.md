@@ -1,7 +1,6 @@
-# remix-fastify-template
+# remix-notes-app
 
-base project for building remix applications with fastify server and sequelize orm.
-Also sets up connection with a postgres server
+notes app built using remix, sequelize and fastify
 
 ## To begin
 
