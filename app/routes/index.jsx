@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import NotesList, { links as NotesListLinks } from "~/components/NotesList";
 import { json } from "@remix-run/node";
-import {
-  useActionData,
-  useCatch,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
+import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import { Note, Op } from "models/index.server";
 import AddNotesBtn, {
   links as AddNotesBtnLinks,
@@ -15,33 +10,19 @@ import SearchBar, { links as SearchBarLinks } from "~/components/SearchBar";
 
 export default function Index() {
   const [notes, setNotes] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [query, setQuery] = useState("");
   const allNotes = useLoaderData();
   const searchResults = useActionData();
-  const navigation = useNavigation();
-  const isLoading = navigation.state === "submitting";
 
   useEffect(() => {
-    if (isSearching && searchResults) {
-      setNotes([...searchResults]);
-    } else {
-      setNotes([...allNotes]);
-    }
-  }, [searchResults, allNotes, isSearching]);
+    if (query.length > 0 && searchResults) setNotes([...searchResults]);
+    else setNotes([...allNotes]);
+  }, [searchResults, allNotes, query]);
 
   return (
     <main>
-      <SearchBar
-        setIsSearching={setIsSearching}
-        query={query}
-        setQuery={setQuery}
-      />
-      {isLoading ? (
-        <p className="searching">Searching...</p>
-      ) : (
-        <NotesList notes={notes} isSearching={isSearching} query={query} />
-      )}
+      <SearchBar query={query} setQuery={setQuery} />
+      <NotesList notes={notes} query={query} />
       <AddNotesBtn />
     </main>
   );
@@ -69,6 +50,8 @@ export async function loader() {
 export async function action({ request }) {
   const formData = await request.formData();
   const query = formData.get("query");
+
+  console.log(query);
 
   try {
     const results = await Note.findAll({
