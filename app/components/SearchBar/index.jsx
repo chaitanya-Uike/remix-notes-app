@@ -7,21 +7,19 @@ import styles from "./style.css";
 export default function SearchBar({ query, setQuery }) {
   const submit = useSubmit();
   const timeoutIdRef = useRef();
-  const formRef = useRef();
 
   function searchNotes() {
     if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current);
 
     timeoutIdRef.current = setTimeout(() => {
-      // event.currentTarget is null thats why I have to explicitly create and pass ref
-      submit(formRef.current, { method: "post" });
+      submit({ query }, { method: "post" });
     }, 250);
   }
 
   return (
     <div className="searchBarContainer">
       <FaSistrix />
-      <Form onChange={searchNotes} ref={formRef}>
+      <Form onChange={searchNotes}>
         <input
           type="text"
           name="query"
